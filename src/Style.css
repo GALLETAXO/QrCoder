@@ -1,1 +1,67 @@
+body {
+    margin: 0;
+    height: 100vh;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: Arial, sans-serif;
+
+    background: #202020;
+    color: white;
+}
+
+
+.container {
+
+    text-align: center;
+
+    background: #303030;
+
+    padding: 30px;
+
+    border-radius: 20px;
+}
+
+
+input {
+
+    width: 250px;
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    border: none;
+
+    margin-bottom: 15px;
+}
+
+
+button {
+
+    padding: 12px 20px;
+
+    margin: 10px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+}
+
+
+#qrContainer {
+
+    margin: 20px;
+
+    background: white;
+
+    padding: 15px;
+
+    display: inline-block;
+
+}
