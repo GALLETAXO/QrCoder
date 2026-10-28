@@ -1,67 +1,180 @@
+* { box-sizing: border-box; }
+
 body {
     margin: 0;
-    height: 100vh;
-
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-
     font-family: Arial, sans-serif;
-
     background: #202020;
     color: white;
+    padding: 20px;
 }
 
-
-.container {
-
-    text-align: center;
-
+.app-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
     background: #303030;
-
     padding: 30px;
-
     border-radius: 20px;
+    max-width: 950px;
+    width: 100%;
 }
 
+.controls, .preview {
+    flex: 1;
+    min-width: 320px;
+}
 
-input {
+h1 { margin-top: 0; font-size: 24px; }
 
-    width: 250px;
-
-    padding: 12px;
-
+.control-group {
+    background: #404040;
+    padding: 15px;
     border-radius: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
+.input-row, .color-row, .adv-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+input[type="text"] {
+    padding: 12px;
+    border-radius: 8px;
     border: none;
+    width: 100%;
+    flex: 1;
+}
 
+input[type="color"] {
+    border: none;
+    height: 30px;
+    width: 40px;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 0;
+}
+
+input[type="range"] { width: 80px; }
+
+/* Sistema de Pestañas (Tabs) */
+.tabs-container {
     margin-bottom: 15px;
 }
 
-
-button {
-
-    padding: 12px 20px;
-
-    margin: 10px;
-
-    border: none;
-
-    border-radius: 10px;
-
-    cursor: pointer;
-
+.tabs-header {
+    display: flex;
+    gap: 5px;
 }
 
+.tab-btn {
+    flex: 1;
+    padding: 10px;
+    background: #444;
+    color: #bbb;
+    border: none;
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+    width: auto;
+    margin: 0;
+}
+
+.tab-btn.active {
+    background: #505050;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+    background: #505050;
+    padding: 15px;
+    border-radius: 0 0 10px 10px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.adv-group {
+    background: #333;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.adv-group:last-child { margin-bottom: 0; }
+
+/* Botones principales */
+button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #4caf50;
+    color: white;
+    font-weight: bold;
+    width: 100%;
+    transition: 0.2s;
+}
+
+button#downloadBtn {
+    background: #2196f3;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+button:hover { opacity: 0.9; }
+
+/* Estilos de la Tarjeta Composición */
+.preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background: linear-gradient(to bottom, #8e8e8e, #505050);
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    max-width: 380px;
+}
+
+.card-text {
+    background-color: white;
+    color: black;
+    padding: 10px 15px;
+    margin: 0;
+    text-align: center;
+    width: fit-content;
+    max-width: 100%;
+    word-break: break-word;
+}
 
 #qrContainer {
-
-    margin: 20px;
-
     background: white;
-
     padding: 15px;
-
-    display: inline-block;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 230px;
+    height: 230px;
 }

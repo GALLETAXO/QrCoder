@@ -3,40 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>QR Generator</title>
-
+    <title>QR Generator Pro</title>
     <link rel="stylesheet" href="style.css">
-
-    <!-- Librería para generar QR -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
-
 <body>
 
-    <main class="container">
+    <main class="app-container">
+        <!-- Panel de Controles -->
+        <section class="controls">
+            <h1>Generador de Tarjeta QR</h1>
 
-        <h1>QR Generator</h1>
+            <div class="control-group">
+                <label>Contenido del QR:</label>
+                <input id="qrInput" type="text" placeholder="Escribe un link o texto">
+                <button onclick="generateQR()">Generar QR</button>
+            </div>
 
-        <input 
-            id="textInput" 
-            type="text" 
-            placeholder="Escribe un texto o link">
+            <div class="control-group">
+                <label>Textos (Desmarca para ocultar):</label>
+                <div class="input-row">
+                    <input type="checkbox" id="showTitle" checked>
+                    <input id="titleInput" type="text" placeholder="Agregar un título">
+                </div>
+                <div class="input-row">
+                    <input type="checkbox" id="showSub" checked>
+                    <input id="subInput" type="text" placeholder="Agregar un subtítulo">
+                </div>
+                <div class="input-row">
+                    <input type="checkbox" id="showExtra" checked>
+                    <input id="extraInput" type="text" placeholder="Agregar un texto extra">
+                </div>
+            </div>
 
-        <button onclick="generateQR()">
-            Generar QR
-        </button>
+            <div class="control-group">
+                <label>Fondo de la tarjeta (Degradado):</label>
+                <div class="color-row">
+                    <input id="bgColor1" type="color" value="#8e8e8e">
+                    <input id="bgColor2" type="color" value="#505050">
+                </div>
+            </div>
 
-        <div id="qrContainer"></div>
+            <!-- Sistema de Pestañas (Tabs) -->
+            <div class="tabs-container">
+                <div class="tabs-header">
+                    <button id="tabNormal" class="tab-btn active" onclick="switchTab('normal')">Opciones de Texto</button>
+                    <button id="tabAdvanced" class="tab-btn" onclick="switchTab('advanced')">Avanzadas</button>
+                </div>
 
-        <button id="downloadBtn" onclick="downloadQR()" disabled>
-            Descargar PNG
-        </button>
+                <!-- Pestaña 1: Opciones Generales -->
+                <div id="contentNormal" class="tab-content active">
+                    <div class="adv-group">
+                        <strong>Aplicar a todos los textos</strong>
+                        <div class="adv-row">
+                            <label>Tamaño: <input type="range" id="globalSize" min="10" max="45" value="22"></label>
+                            <label><input type="color" id="globalColor" value="#000000"> Letra</label>
+                        </div>
+                        <div class="adv-row">
+                            <label><input type="checkbox" id="globalBgToggle" checked> Usar fondo</label>
+                            <input type="color" id="globalBgColor" value="#ffffff">
+                            <label><input type="checkbox" id="globalRadius"> Bordes curvos</label>
+                        </div>
+                        <div class="adv-row">
+                            <label><input type="checkbox" id="globalBold" checked> <b>Negrita</b></label>
+                            <label><input type="checkbox" id="globalItalic"> <i>Cursiva</i></label>
+                        </div>
+                    </div>
+                </div>
 
+                <!-- Pestaña 2: Opciones Avanzadas (Separadas) -->
+                <div id="contentAdvanced" class="tab-content">
+                    <div class="adv-group">
+                        <strong>Configuración de Título</strong>
+                        <div class="adv-row">
+                            <label>Tamaño: <input type="range" id="titleSize" min="12" max="45" value="28"></label>
+                            <label><input type="color" id="titleColor" value="#000000"> Letra</label>
+                        </div>
+                        <div class="adv-row">
+                            <label><input type="checkbox" id="titleBgToggle" checked> Usar fondo</label>
+                            <input type="color" id="titleBgColor" value="#ffffff">
+                            <label><input type="checkbox" id="titleRadius"> Bordes curvos</label>
+                        </div>
+                        <div class="adv-row">
+                            <label><input type="checkbox" id="titleBold" checked> <b>Negrita</b></label>
+                            <label><input type="checkbox" id="titleItalic"> <i>Cursiva</i></label>
+                        </div>
+                    </div>
+
+                    <div class="adv-group">
+                        <strong>Configuración de Subtítulo</strong>
+                        <div class="adv-row">
+                            <label>Tamaño: <input type="range" id="subSize" min="10" max="35" value="22"></label>
+                            <label><input type="color" id="subColor" value="#000000"> Letra</label>
+                        </div>
+                        <div class="adv-row">
+                            <label><input type="checkbox" id="subBgToggle" checked> Usar fondo</label>
+                            <input type="color" id="subBgColor" value="#ffffff">
+                            <label><input type="checkbox" id="subRadius"> Bordes curvos</label>
+                        </div>
+                        <div class="adv-row">
+                            <label><input type="checkbox" id="subBold" checked> <b>Negrita</b></label>
+                            <label><input type="checkbox" id="subItalic"> <i>Cursiva</i></label>
+                        </div>
+                    </div>
+
+                    <div class="adv-group">
+                        <strong>Configuración de Texto Extra</strong>
+                        <div class="adv-row">
+                            <label>Tamaño: <input type="range" id="extraSize" min="10" max="30" value="16"></label>
+                            <label><input type="color" id="extraColor" value="#000000"> Letra</label>
+                        </div>
+                        <div class="adv-row">
+                            <label><input type="checkbox" id="extraBgToggle" checked> Usar fondo</label>
+                            <input type="color" id="extraBgColor" value="#ffffff">
+                            <label><input type="checkbox" id="extraRadius"> Bordes curvos</label>
+                        </div>
+                        <div class="adv-row">
+                            <label><input type="checkbox" id="extraBold" checked> <b>Negrita</b></label>
+                            <label><input type="checkbox" id="extraItalic"> <i>Cursiva</i></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="downloadBtn" onclick="downloadCard()">Descargar Composición</button>
+        </section>
+
+        <!-- Panel de Vista Previa -->
+        <section class="preview">
+            <div id="card" class="card">
+                <div id="cardTitle" class="card-text">Agregar un título</div>
+                
+                <div id="qrContainer">
+                    <!-- El QR se inyecta aquí -->
+                </div>
+
+                <div id="cardSub" class="card-text">Agregar un subtítulo</div>
+                <div id="cardExtra" class="card-text">Agregar un texto extra</div>
+            </div>
+        </section>
     </main>
 
-
     <script src="script.js"></script>
-
 </body>
 </html>
